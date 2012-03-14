@@ -43,10 +43,12 @@ module APN
       
       private
       def open(options = {}, &block) # :nodoc:
-        options = {:cert => configatron.apn.cert,
+        options = {#:cert => configatron.apn.cert,
                    :passphrase => configatron.apn.passphrase,
                    :host => configatron.apn.host,
                    :port => configatron.apn.port}.merge(options)
+        
+
         #cert = File.read(options[:cert])
         cert = options[:cert]
         ctx = OpenSSL::SSL::SSLContext.new
