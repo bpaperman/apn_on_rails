@@ -59,7 +59,7 @@ module APN
         #cert = File.read(options[:cert])
         cert = options[:cert]
         
-        OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE #CHANGE THIS EVENTUALLY - IT IS NOT SECURE!!
+        const_set(OpenSSL::SSL::VERIFY_PEER, OpenSSL::SSL::VERIFY_NONE) #CHANGE THIS EVENTUALLY - IT IS NOT SECURE!!
         
         ctx = OpenSSL::SSL::SSLContext.new
         ctx.key = OpenSSL::PKey::RSA.new(cert, options[:passphrase])
