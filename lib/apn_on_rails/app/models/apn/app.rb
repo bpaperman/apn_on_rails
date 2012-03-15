@@ -24,7 +24,6 @@ class APN::App < APN::Base
       raise APN::Errors::MissingCertificateError.new
       return
     end
-    puts "APP.send_notifications"
     APN::App.send_notifications_for_cert(self.cert, self.id)
   end
 
@@ -36,7 +35,6 @@ class APN::App < APN::Base
     if !configatron.apn.cert.blank?
       #global_cert = File.read(configatron.apn.cert)
       app = APN::App.first
-      puts "send notifications for cert"
       send_notifications_for_cert(app.cert, nil)
     end
   end
