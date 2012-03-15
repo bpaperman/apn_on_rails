@@ -62,7 +62,7 @@ module APN
         ctx.verify_mode = OpenSSL::SSL::VERIFY_NONE ## REMOVE THIS - POSSIBLY REPLACE BY ctx.ca_file = '/usr/lib/ssl/certs/ca-certificates.crt' <-- need to test this
         ctx.ca_file = '/usr/lib/ssl/certs/ca-certificates.crt'
         
-        sock = TCPSocket.new(options[:host], options[:port])
+        sock = TCPSocket.new("gateway.sandbox.push.apple.com", options[:port])
         ssl = OpenSSL::SSL::SSLSocket.new(sock, ctx)
         ssl.sync = true
         ssl.connect
