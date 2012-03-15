@@ -59,11 +59,12 @@ module APN
         ctx.key = OpenSSL::PKey::RSA.new(cert, options[:passphrase])
         ctx.cert = OpenSSL::X509::Certificate.new(cert)
     
-        ctx.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        ctx.verify_mode = OpenSSL::SSL::VERIFY_NONE ## REMOVE THIS - POSSIBLY REPLACE BY ctx.ca_file = '/usr/lib/ssl/certs/ca-certificates.crt' <-- need to test this
       
         sock = TCPSocket.new(options[:host], options[:port])
         ssl = OpenSSL::SSL::SSLSocket.new(sock, ctx)
         ssl.sync = true
+        puts "SSL connected: " + ssl
         ssl.connect
   
         yield ssl, sock if block_given?

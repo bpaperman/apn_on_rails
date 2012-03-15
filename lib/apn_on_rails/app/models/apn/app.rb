@@ -24,6 +24,7 @@ class APN::App < APN::Base
       raise APN::Errors::MissingCertificateError.new
       return
     end
+    puts "APP.send_notifications"
     APN::App.send_notifications_for_cert(self.cert, self.id)
   end
 
@@ -35,6 +36,7 @@ class APN::App < APN::Base
     if !configatron.apn.cert.blank?
       #global_cert = File.read(configatron.apn.cert)
       app = APN::App.first
+      puts "send notifications for cert"
       send_notifications_for_cert(app.cert, nil)
     end
   end
@@ -50,7 +52,9 @@ class APN::App < APN::Base
         APN::Connection.open_for_delivery({:cert => the_cert}) do |conn, sock|
           APN::Device.find_each(:conditions => conditions) do |dev|
             dev.unsent_notifications.each do |noty|
+              puts "writing conn " + conn
               conn.write(noty.message_for_sending)
+              puts "noty sent:" + noty.message_for_sending
               noty.sent_at = Time.now
               noty.save
             end
@@ -58,6 +62,7 @@ class APN::App < APN::Base
         end
       rescue Exception => e
         log_connection_exception(e)
+        puts "connection exception:" + e
       end
     # end
   end
