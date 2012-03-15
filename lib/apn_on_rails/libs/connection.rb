@@ -1,8 +1,4 @@
-module OpenSSL
-  module SSL
-    remove_const :VERIFY_PEER
-  end
-end
+
 
 
 module APN
@@ -58,13 +54,13 @@ module APN
 
         #cert = File.read(options[:cert])
         cert = options[:cert]
-        
-        const_set(OpenSSL::SSL::VERIFY_PEER, OpenSSL::SSL::VERIFY_NONE) #CHANGE THIS EVENTUALLY - IT IS NOT SECURE!!
-        
+
         ctx = OpenSSL::SSL::SSLContext.new
         ctx.key = OpenSSL::PKey::RSA.new(cert, options[:passphrase])
         ctx.cert = OpenSSL::X509::Certificate.new(cert)
-  
+    
+        ctx.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      
         sock = TCPSocket.new(options[:host], options[:port])
         ssl = OpenSSL::SSL::SSLSocket.new(sock, ctx)
         ssl.sync = true
