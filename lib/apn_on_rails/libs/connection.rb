@@ -64,8 +64,8 @@ module APN
         sock = TCPSocket.new(options[:host], options[:port])
         ssl = OpenSSL::SSL::SSLSocket.new(sock, ctx)
         ssl.sync = true
-        puts "SSL connected: " + ssl
         ssl.connect
+        puts "SSL connected"
   
         yield ssl, sock if block_given?
   
